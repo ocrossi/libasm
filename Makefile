@@ -1,32 +1,47 @@
-LIBNAME = libasm.a
-
 SRC_DIR = srcs
 OBJ_DIR = objs
+TEST_DIR=tests
 SRCS = $(wildcard $(SRC_DIR)/*.s)
-OBJS = $(SRCS:$(SRC_DIR)/%.s=$(OBJ_DIR)/%.o)
+OBJS = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(SRCS))
+
+
+
+NAME = libasm.a
+
+CC=gcc
+CCFLAGS=-L. -lasm -o
+TNAME=tester
+TESTER_C=$(addprefix $(TEST_DIR)/, $(addsuffix .c, $(TNAME)))
+TESTER_O=$(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(TNAME)))
 
 AS = nasm
-FILE_FLAGS = -f elf64
-DBGFLAGS = -g
-
+ASFLAGS = -f elf64
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "srcs : $(SRCS)"
-	@echo "objs : $(OBJS)"
-	ar rcs $(NAME) $(OBJS)
+	@echo "Creating library $@"
+	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
-	@mkdir -pv $(OBJ_DIR)
-	$(AS) $(DBGFLAGS) $(FILE_FLAGS) -o $@ $<
+	@mkdir -vp $(OBJ_DIR)
+	@echo "Compiling $<"
+	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
 	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
-fclean: clean
+clean_test:
+	rm -f $(TESTER_O)
+	rm -f $(TNAME)
+
+fclean: clean clean_test
 	rm -f $(NAME)
+
+test: all
+	$(CC) $(TESTER_C) $(CCFLAGS) $(TNAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean

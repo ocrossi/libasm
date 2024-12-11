@@ -1,4 +1,0 @@
---> compile & run hello_world.s
-
-nasm -f elf64 hello_world.s -o hello_world.o && ld hello_world.o -o hello_world && ./hello_world
-
