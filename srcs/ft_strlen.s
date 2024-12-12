@@ -2,9 +2,6 @@ section .text
 global ft_strlen
 
 ft_strlen:
-	push rbp
-	mov rbp, rsp
-
 	mov rax, 0          	; RAX cpt string length
 	mov rcx, rdi        	; RCX points to beginning of str
 
@@ -16,7 +13,5 @@ ft_strlen:
 	inc rcx			; incs pointer to string
 	jmp .loop           	; jumping back to loop 
 
-.done:				; clears stack and returns
-	mov rsp, rbp
-	pop rbp
+.done
 	ret

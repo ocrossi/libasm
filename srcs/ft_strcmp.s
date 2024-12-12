@@ -2,9 +2,6 @@ section .text
 global ft_strcmp
 
 ft_strcmp:
-	; classic stack prep
-	push rbp
-	mov rbp, rsp
 	; loads s1 pointer to rax and s2 pointer to rbx
 	mov rax, rdi	
 	mov rbx, rsi
@@ -29,6 +26,4 @@ ft_strcmp:
 	jmp .done
 
 .done:
-	mov rsp, rbp
-	pop rbp
 	ret

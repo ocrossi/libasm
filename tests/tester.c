@@ -41,10 +41,10 @@ int main(int ac, char **av)
 
 	// write
 	printf("my write\n");
-	ssize_t mret = ft_write(1, "yessay ca write!\n", 18);
+	ssize_t mret = ft_write(1, "yessay ca write!\n", 0);
 	printf("ret val = %lu\n", mret);
 	printf("their write\n");
-	ssize_t tret = write(1, "yessay ca write!\n", 18);
+	ssize_t tret = write(1, "yessay ca write!\n", 0);
 	printf("ret val = %lu\n", tret);
 
 	// read
